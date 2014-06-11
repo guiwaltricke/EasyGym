@@ -1,0 +1,34 @@
+ACADEMIA EASY
+
+CADASTRO DE CLIENTES
+	
+	->Nome;
+	->Telefone;
+	->Email;
+	->Endereço;
+	->Código (talvez coloque gerar automatico).
+
+CADASTRO DE PLANOS
+
+	->Manha (50,00$) | Tarde (80,00$) | Noite (140,00$)
+	->3 Meses manha (45,00$)
+
+CADASTRO DE MENSALIDADES A PAGAR - baseadas nos planos
+
+	->Código do cliente
+	->Valor do plano
+	->Valor pago
+
+RELATÓRIOS DE MENSALIDADES A RECEBER
+
+	->Lista de nomes e código dos clientes a receber (pendentes)
+
+RELATÓRIOS DE MENSALIDADES PAGAS
+
+	->Lista das mensalidades pagar clientes com código.
+
+RELATÓRIOS DE CLIENTES
+
+	->Gráfico do número de novos clientes;
+	->Clientes ativos;
+	->Clientes desatinos.
