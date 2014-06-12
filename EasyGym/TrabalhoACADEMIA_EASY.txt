@@ -19,6 +19,7 @@ CADASTRO DE MENSALIDADES A PAGAR - baseadas nos planos
 	->Valor do plano
 	->Valor pago
 
+
 RELATÓRIOS DE MENSALIDADES A RECEBER
 
 	->Lista de nomes e código dos clientes a receber (pendentes)

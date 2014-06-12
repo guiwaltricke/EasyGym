@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cadastro de cliente</title>
+        <title>Cadastro de Planos</title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
         <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                   <ul class="nav navbar-nav">
-                    <li><a href="#">Home</a></li>
+                      
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -37,13 +37,7 @@
                           <li><a href="#">Planos</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Financeiro <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                          <li><a href="#">Mensalidade</a></li>
-                          <li><a href="#">Mais alguma coisa</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="#contact">Financeiro</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatórios <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -52,7 +46,7 @@
                           <li><a href="#">Clientes</a></li>
                         </ul>
                     </li>
-                    <li><a href="#contact">Sair</a></li>
+                    <li><a href="#contact">Sobre</a></li>
                   </ul>
                 </div><!--/.nav-collapse -->
               </div>
@@ -61,33 +55,25 @@
             <!-- Criando a estrutura abaixo do menu -->
             </br>
                 <div class="row">
-                    <div class="form-group col-sm-10">
+                    <div class="form-group col-lg-10">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Cliente</h3>
+                              <h3 class="panel-title">Planos</h3>
                             </div>
                             <div class="panel-body">
                               
-                                <!-- Parte de dentro do PANEL, com os dados do cliente -->
-                                <form role="form" action="cadastroCliente" method="POST">
+                                <!-- Parte de dentro do PANEL, com os dados do plano -->
+                                <form role="form" action="cadastroPlanos" method="POST">
                
                                     <div class="row">
                                         
-                                        <div class="form-group col-sm-12">
-                                            <label for="lTexto" class="control-label">Nome</label>
-                                            <input type="text" class="form-control" placeholder="Digite seu nome">
+                                        <div class="form-group col-sm-8">
+                                            <label for="lTexto" class="control-label">Descrição</label>
+                                            <input type="text" class="form-control" placeholder="Digite uma descrição">
                                         </div>
-                                        <div class="form-group col-sm-12">
-                                            <label for="lTexto" class="control-label">Telefone</label>
-                                            <input type="text" class="form-control" placeholder="Digite seu telefone">
-                                        </div>
-                                        <div class="form-group col-sm-12">
-                                            <label for="lTexto" class="control-label">Email</label>
-                                            <input type="text" class="form-control" placeholder="Digite seu Email">
-                                        </div>
-                                        <div class="form-group col-sm-12">
-                                            <label for="lTexto" class="control-label">Endereco</label>
-                                            <input type="text" class="form-control" placeholder="Digite seu endereco completo">
+                                        <div class="form-group col-sm-8">
+                                            <label for="lTexto" class="control-label">Valor</label>
+                                            <input type="text" class="form-control" placeholder="Digite o valor do plano">
                                         </div>
                                        
                                     </div>
@@ -96,7 +82,7 @@
                                         <input class="btn btn-lg btn-primary" type="submit" value="Cadastrar">
                                     </div>
 
-                                <!-- FIM FORM DO CLIENTE -->
+                                <!-- FIM FORM DO PLANO -->
                                 </form>
                             </div>
                         </div>
