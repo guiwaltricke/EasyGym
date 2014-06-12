@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cadastro de Planos</title>
+        <title>Home</title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
         <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
@@ -25,12 +25,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.jsp">EasyGym</a>
+                  <a class="navbar-brand active" href="index.jsp">EasyGym</a>
                 </div>
                 <div class="collapse navbar-collapse">
                   <ul class="nav navbar-nav">
                       
-                    <li class="dropdown active">
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                           <li><a href="cadastroCliente.jsp">Clientes</a></li>
@@ -54,42 +54,18 @@
  
             <!-- Criando a estrutura abaixo do menu -->
             </br>
-                <div class="row">
-                    <div class="form-group col-lg-10">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                              <h3 class="panel-title">Planos</h3>
-                            </div>
-                            <div class="panel-body">
-                              
-                                <!-- Parte de dentro do PANEL, com os dados do plano -->
-                                <form role="form" action="cadastroPlanos" method="POST">
-               
-                                    <div class="row">
-                                        
-                                        <div class="form-group col-sm-8">
-                                            <label for="lTexto" class="control-label">Descrição</label>
-                                            <input type="text" class="form-control" placeholder="Digite uma descrição">
-                                        </div>
-                                        <div class="form-group col-sm-8">
-                                            <label for="lTexto" class="control-label">Valor</label>
-                                            <input type="text" class="form-control" placeholder="Digite o valor do plano">
-                                        </div>
-                                       
-                                    </div>
+                
+                 
+                    <h3>Seja bem vindo ao EasyGym</h3>
+                    <p>
+                        Este sistema visa atender a demanda de academias por um controle de seus clientes,
+                        com o EasyGym o proprietário vai conseguir controlar o fluxo de dinheiro proveniente de
+                        mensalidades pagas e ainda verificar os relátorios de clientes ativos.
+                     
+                    </p>
+                
 
-                                    <div class="form-group">
-                                        <input class="btn btn-lg btn-primary" type="submit" value="Cadastrar">
-                                    </div>
-
-                                <!-- FIM FORM DO PLANO -->
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div><!-- /.container -->
+            </div>
            
     </body>
 </html>

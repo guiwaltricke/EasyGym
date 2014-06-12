@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="#">EasyGym</a>
+                  <a class="navbar-brand" href="index.jsp">EasyGym</a>
                 </div>
                 <div class="collapse navbar-collapse">
                   <ul class="nav navbar-nav">
@@ -35,11 +35,12 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                          <li><a href="#">Clientes</a></li>
-                          <li><a href="#">Planos</a></li>
+                          <li><a href="cadastroCliente.jsp">Clientes</a></li>
+                          <li><a href="cadastroPlano.jsp">Planos</a></li>
                         </ul>
                     </li>
-                    <li><a class="active" href="#contact" >Financeiro</a></li>
+                    
+                    <li class="active"><a href="filtroCliente.jsp">Financeiro</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatórios <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -48,7 +49,7 @@
                           <li><a href="#">Clientes</a></li>
                         </ul>
                     </li>
-                    <li><a href="#contact">Sobre</a></li>
+                    <li><a href="about.jsp">Sobre</a></li>
                   </ul>
                 </div><!--/.nav-collapse -->
               </div>
@@ -111,6 +112,14 @@
                                         <tr bgcolor="#f0f0f0">
                                         <td colspan="3"><i>Não há clientes cadastrados.</i></td>
                                     </c:if>
+                                        
+                                    <c:forEach var="cliente" items="${searchResult}" varStatus="a">
+                                        <tr bgcolor="#f0f0f0">
+                                        <td>${cliente.nome}</td>
+                                        <td>${cliente.telefone}</td>
+                                        <td>${cliente.email}</td>
+                                        <td><a href="cadastrarMensalidade?id=${cliente.codigo}">Selecionar cliente</a></td>
+                                    </c:forEach>        
                                     
                                 </table>
                                 
