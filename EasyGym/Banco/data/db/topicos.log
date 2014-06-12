@@ -1,0 +1,11 @@
+CREATE USER SA PASSWORD "" ADMIN
+/*C1*/SET SCHEMA PUBLIC
+CONNECT USER SA
+Create table Clientes (\u000aCodigo Integer,\u000aNome Varchar(100),\u000aTelefone Varchar(30),\u000aEmail Varchar(100),\u000aEndereco Varchar(200),\u000aSituacao Varchar(1))
+Create table Planos (\u000a\u0009Codigo Integer,\u000a\u0009Descricao Varchar(100),\u000a\u0009Valor Numeric(15,2))
+Create table MensalidadesPagas (\u000a\u0009Codigo Integer,\u000a\u0009Cliente Integer,\u000a\u0009Descricao Varchar(200),\u000a\u0009DataPagto Date,\u000a\u0009ValorPago Numeric(15,2))
+alter table clientes add Plano Integer
+DISCONNECT
+/*C2*/SET SCHEMA PUBLIC
+CONNECT USER SA
+alter table clientes add datacadastro date
