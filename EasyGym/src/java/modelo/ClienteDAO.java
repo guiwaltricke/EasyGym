@@ -56,8 +56,8 @@ public class ClienteDAO {
         
         return cliente;
     }
-    
-    public static List<Cliente> getListaClientes(){
+            
+    public static List<Cliente> getListaClientes(String nome){
         List<Cliente> lista = new ArrayList();
 
         Connection conn = Conexao.getConexao();
@@ -69,6 +69,10 @@ public class ClienteDAO {
         try {
                 String sql = "Select Codigo, Nome, Telefone, Endereco, Email, Plano, " +
                              "DataCadastro, Situacao from Clientes";
+                
+                if (nome != "") {
+                    sql += " where nome like '%" + nome + "%'";
+                }
                 
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();
