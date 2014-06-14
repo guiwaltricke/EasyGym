@@ -52,6 +52,7 @@ public class PlanoDAO {
 
         Connection conn = Conexao.getConexao();
         
+        
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Plano plano = null;
@@ -85,7 +86,7 @@ public class PlanoDAO {
                     }
                 }	
         } 
-               
+        
         return lista;
     }
     

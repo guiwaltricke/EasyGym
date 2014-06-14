@@ -13,7 +13,7 @@ import modelo.ClienteDAO;
 import modelo.Plano;
 import modelo.PlanoDAO;
 
-@WebServlet(name = "EasyGymServlet", urlPatterns = {"/EasyGymServlet", 
+@WebServlet(name = "EasyGym", urlPatterns = {"/EasyGym", 
     "/novoPlano", "/editarPlano", "/salvarPlano",
     "/novoCliente", "/editarCliente", "/salvarCliente", "/listarClientes"})
 public class EasyGymServlet extends HttpServlet {
