@@ -1,10 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cadastro de Planos</title>
+        <title>Financeiro - Filtro Cliente</title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
         <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
@@ -30,14 +32,15 @@
                 <div class="collapse navbar-collapse">
                   <ul class="nav navbar-nav">
                       
-                    <li class="dropdown active">
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                           <li><a href="cadastroCliente.jsp">Clientes</a></li>
                           <li><a href="cadastroPlano.jsp">Planos</a></li>
                         </ul>
                     </li>
-                    <li><a href="filtroCliente.jsp">Financeiro</a></li>
+                    
+                    <li class="active"><a href="filtroCliente.jsp">Financeiro</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatórios <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -58,28 +61,24 @@
                     <div class="form-group col-lg-10">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Planos</h3>
+                              <h3 class="panel-title">Pesquisar Cliente</h3>
                             </div>
                             <div class="panel-body">
                               
-                                <!-- Parte de dentro do PANEL, com os dados do plano -->
+                                <!-- Parte de dentro do PANEL, dados do Filtro do cliente -->
                                 <form role="form" action="cadastroPlanos" method="POST">
                
                                     <div class="row">
                                         
                                         <div class="form-group col-sm-8">
-                                            <label for="lTexto" class="control-label">Descrição</label>
-                                            <input type="text" class="form-control" placeholder="Digite uma descrição">
-                                        </div>
-                                        <div class="form-group col-sm-8">
-                                            <label for="lTexto" class="control-label">Valor</label>
-                                            <input type="text" class="form-control" placeholder="Digite o valor do plano">
+                                            <label for="lTexto" class="control-label">Nome</label>
+                                            <input type="text" class="form-control" placeholder="Digite o nome do cliente">
                                         </div>
                                        
                                     </div>
 
                                     <div class="form-group">
-                                        <input class="btn btn-lg btn-primary" type="submit" value="Cadastrar">
+                                        <input class="btn btn-lg btn-primary" type="submit" value="Pesquisar">
                                     </div>
 
                                 <!-- FIM FORM DO PLANO -->
@@ -88,47 +87,47 @@
                         </div>
                     </div>
                 </div>
-            <div class="row">
+            
+                <!-- PANEL DO RESULTADO DOS CLIENTES-->
+                
+                <div class="row">
                     <div class="form-group col-lg-10">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Listagem de planos</h3>
+                              <h3 class="panel-title">Clientes Cadastrados</h3>
                             </div>
                             <div class="panel-body">
                               
-                                <!-- Parte de dentro do PANEL, com os dados do plano -->
+                                <!-- Parte de dentro do PANEL, Resultados dos clientes da busca -->
                                 <table class="table table-striped">
                                     
                                     <!-- criando linha por linha com o TR-->
                                     <tr>
-                                        <th>Descrição</th>
-                                        <th>Valor</th>
+                                        <th>Nome do Cliente</th>
+                                        <th>Telefone</th>
+                                        <th>Email</th>
                                     </tr>
                                     
-                                    <c:if test="${empty searchPlans}">
+                                    <c:if test="${empty searchResult}">
                                         <tr bgcolor="#f0f0f0">
-                                        <td colspan="3"><i>Não há planos cadastrados.</i></td>
+                                        <td colspan="3"><i>Não há clientes cadastrados.</i></td>
                                     </c:if>
-                                    
-                                    
-                                    <c:forEach var="plano" items="${searchPlans}" varStatus="a">
-                                        <tr bgcolor="#f0f0f0">
-                                        <td>${plano.descricao}</td>
-                                        <td>${plano.valor}</td>
-                                        <td><a href="editarPlano?id=${plano.codigo}"><span class="glyphicon glyphicon-pencil"></span></a></td>                                    
-                                
-                                    </c:forEach>         
                                         
+                                    <c:forEach var="cliente" items="${searchResult}" varStatus="a">
+                                        <tr bgcolor="#f0f0f0">
+                                        <td>${cliente.nome}</td>
+                                        <td>${cliente.telefone}</td>
+                                        <td>${cliente.email}</td>
+                                        <td><a href="cadastrarMensalidade?id=${cliente.codigo}">Selecionar cliente</a></td>
+                                    </c:forEach>        
+                                    
                                 </table>
-                                            
-                                <!-- FIM FORM DO PLANO -->
-                               
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-            
-            
+
             </div><!-- /.container -->
            
     </body>

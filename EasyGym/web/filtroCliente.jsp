@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Financeiro - Filtro Cliente</title>
+        <title>Cliente - Filtro Cliente</title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
         <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
@@ -118,11 +118,15 @@
                                         <td>${cliente.nome}</td>
                                         <td>${cliente.telefone}</td>
                                         <td>${cliente.email}</td>
-                                        <td><a href="cadastrarMensalidade?id=${cliente.codigo}">Selecionar cliente</a></td>
+                                        <td><a href="editarCliente?id=${cliente.codigo}">Selecionar cliente</a></td>
                                     </c:forEach>        
                                     
                                 </table>
                                 
+                                
+                                <div class="form-group">
+                                        <input class="btn btn-lg btn-primary" type="submit" value="Novo Cliente">
+                                </div>
                             </div>
                         </div>
                     </div>
