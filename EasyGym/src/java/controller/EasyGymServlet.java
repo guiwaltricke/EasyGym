@@ -8,12 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
 import modelo.Cliente;
 import modelo.ClienteDAO;
 import modelo.Plano;
 import modelo.PlanoDAO;
 
-@WebServlet(name = "EasyGym", urlPatterns = {"/EasyGym", 
+@WebServlet(name = "EasyGym", urlPatterns = {"/Inicio", 
     "/novoPlano", "/editarPlano", "/salvarPlano",
     "/novoCliente", "/editarCliente", "/salvarCliente", "/listarClientes"})
 public class EasyGymServlet extends HttpServlet {
@@ -38,9 +39,11 @@ public class EasyGymServlet extends HttpServlet {
             jsp = processaSalvarCliente(request);
         }else if(request.getRequestURI().endsWith("/listarClientes")){
             jsp = processaListaClientes(request);
+        }else{
+            jsp = null;
         }
         
-        if(jsp == null){
+        if (jsp == null){
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         }else{
             request.getRequestDispatcher(jsp).forward(request, response);
@@ -63,13 +66,19 @@ public class EasyGymServlet extends HttpServlet {
     private String processaSalvarPlano(HttpServletRequest request){
         Plano plan = carregarPlano(request); 
         PlanoDAO.salvarPlano(plan);       
-        return null;
+        return "/novoPlano";
     }
     
     private Plano carregarPlano(HttpServletRequest request){
-        Integer codigo = Integer.parseInt(request.getParameter("codigo"));
+        String cod = request.getParameter("codigo");
+        
+        if (cod.equals("")) {
+            cod = "0";
+        }
+        
+        Integer codigo = Integer.parseInt(cod);
         String descricao = request.getParameter("descricao");
-        Double valor = Double.parseDouble("valor");
+        Double valor = Double.parseDouble(request.getParameter("valor"));
         
         Plano plan = new Plano(codigo, descricao, valor);
         
@@ -90,18 +99,24 @@ public class EasyGymServlet extends HttpServlet {
     private String processaSalvarCliente(HttpServletRequest request){
         Cliente cli = carregarCliente(request); 
         ClienteDAO.salvarCliente(cli);       
-        return null;
+        return "/listarClientes";
     }
     
     private Cliente carregarCliente(HttpServletRequest request){
         Cliente cli = new Cliente();
         
-        Integer codigo = Integer.parseInt(request.getParameter("codigo"));
+        String cod = request.getParameter("codigo");
+        
+        if (cod.equals("")) {
+            cod = "0";
+        }
+        
+        Integer codigo = Integer.parseInt(cod);
         String nome = request.getParameter("nome");
         String telefone = request.getParameter("telefone");
         String Endereco = request.getParameter("endereco");
         String email = request.getParameter("email");
-        Integer plano = Integer.parseInt(request.getParameter("plano"));
+        Integer plano = 2;//Integer.parseInt(request.getParameter("plano"));
         Date dataCadastro = new Date();
         String situacao = request.getParameter("situacao");
                     
@@ -120,7 +135,15 @@ public class EasyGymServlet extends HttpServlet {
     private String processaListaClientes(HttpServletRequest request){
         String filtroNome = request.getParameter("filtroNome");
         request.setAttribute("clientesCadatrados", ClienteDAO.getListaClientes(filtroNome));
-        return "/filtroCliente.jsp";
+        
+        String botao = request.getParameter("btnNovo");
+        
+        if (botao != null) {
+            return "/novoCliente";
+        } else {
+            request.setAttribute("filtroNome", filtroNome);
+            return "/filtroCliente.jsp";
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

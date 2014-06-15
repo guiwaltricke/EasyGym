@@ -33,8 +33,8 @@
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                          <li><a href="cadastroCliente.jsp">Clientes</a></li>
-                          <li><a href="cadastroPlano.jsp">Planos</a></li>
+                          <li><a href="/EasyGym/listarClientes">Clientes</a></li>
+                          <li><a href="/EasyGym/novoPlano">Planos</a></li>
                         </ul>
                     </li>
                     <li><a href="filtroCliente.jsp">Financeiro</a></li>
@@ -63,30 +63,43 @@
                             <div class="panel-body">
                               
                                 <!-- Parte de dentro do PANEL, com os dados do cliente -->
-                                <form role="form" action="cadastroCliente" method="POST">
+                                <form role="form" action="salvarCliente" method="POST">
                
                                     <div class="row">
-                                        
+                                        <input type="hidden" name="codigo" value=${cliente.codigo}>
                                         <div class="form-group col-sm-8">
                                             <label for="lTexto" class="control-label">Nome</label>
-                                            <input type="text" class="form-control" placeholder="Digite seu nome">
+                                            <input type="text" class="form-control" placeholder="Digite seu nome" name="nome" value="${cliente.nome}">
                                         </div>
                                         <div class="form-group col-sm-8">
                                             <label for="lTexto" class="control-label">Telefone</label>
-                                            <input type="text" class="form-control" placeholder="Digite seu telefone">
+                                            <input type="text" class="form-control" placeholder="Digite seu telefone" name="telefone" value="${cliente.telefone}">
                                         </div>
                                         <div class="form-group col-sm-8">
                                             <label for="lTexto" class="control-label">Email</label>
-                                            <input type="email" class="form-control" placeholder="Digite seu Email">
+                                            <input type="email" class="form-control" placeholder="Digite seu Email" name="email" value="${cliente.email}">
                                         </div>
                                         <div class="form-group col-sm-8">
-                                            <label for="lTexto" class="control-label">Endereco</label>
-                                            <input type="text" class="form-control" placeholder="Digite seu endereco completo">
+                                            <label for="lTexto" class="control-label">Endereço</label>
+                                            <input type="text" class="form-control" placeholder="Digite seu endereco completo" name="endereco" value="${cliente.endereco}">
                                         </div>
-                                       
+                                        <div class="form-group col-sm-8">
+                                            <label for="lTexto" class="control-label">Plano</label>  
+                                        </div>
+                                        <div class="form-group col-sm-8">
+                                            <div class="dropdown"> 
+                                                <input type="" data-toggle="dropdown" class="form-control">
+                                                
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                                </ul>
+                                            </div>    
+                                        </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group">                                         
+                                        
                                         <input class="btn btn-lg btn-primary" type="submit" value="Cadastrar">
                                     </div>
 

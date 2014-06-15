@@ -11,7 +11,7 @@ public class Conexao {
         
         try {
             Class.forName("org.hsqldb.jdbcDriver");
-            conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/data","sa","");
+            conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/topicos","sa","");
             
         } catch (ClassNotFoundException | SQLException e) {
                 System.out.println("ERRO: " + e.getMessage());

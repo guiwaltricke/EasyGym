@@ -33,8 +33,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                          <li><a href="/listarClientes">Clientes</a></li>
-                          <li><a href="/novoPlano">Planos</a></li>
+                          <li><a href="/EasyGym/listarClientes">Clientes</a></li>
+                          <li><a href="/EasyGym/novoPlano">Planos</a></li>
                         </ul>
                     </li>
                     <li><a href="filtroCliente.jsp">Financeiro</a></li>

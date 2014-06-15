@@ -33,8 +33,8 @@
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                          <li><a href="cadastroCliente.jsp">Clientes</a></li>
-                          <li><a href="cadastroPlano.jsp">Planos</a></li>
+                          <li><a href="/EasyGym/listarClientes">Clientes</a></li>
+                          <li><a href="/EasyGym/novoPlano">Planos</a></li>
                         </ul>
                     </li>
                     <li><a href="filtroCliente.jsp">Financeiro</a></li>
@@ -58,22 +58,22 @@
                     <div class="form-group col-lg-10">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Planos</h3>
+                              <h3 class="panel-title">Novo Plano</h3>
                             </div>
                             <div class="panel-body">
                               
                                 <!-- Parte de dentro do PANEL, com os dados do plano -->
-                                <form role="form" action="cadastroPlanos" method="POST">
+                                <form role="form" action="salvarPlano" method="POST">
                
                                     <div class="row">
-                                        
+                                        <input type="hidden" name="codigo" value=${plano.codigo}>
                                         <div class="form-group col-sm-8">
                                             <label for="lTexto" class="control-label">Descrição</label>
-                                            <input type="text" class="form-control" placeholder="Digite uma descrição">
+                                            <input type="text" class="form-control" placeholder="Digite uma descrição" name="descricao" value="${plano.descricao}">
                                         </div>
                                         <div class="form-group col-sm-8">
                                             <label for="lTexto" class="control-label">Valor</label>
-                                            <input type="text" class="form-control" placeholder="Digite o valor do plano">
+                                            <input type="text" class="form-control" placeholder="Digite o valor do plano" name="valor" value=${plano.valor}>
                                         </div>
                                        
                                     </div>
@@ -92,7 +92,7 @@
                     <div class="form-group col-lg-10">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Listagem de planos</h3>
+                              <h3 class="panel-title">Planos cadastrados</h3>
                             </div>
                             <div class="panel-body">
                               
@@ -103,19 +103,20 @@
                                     <tr>
                                         <th>Descrição</th>
                                         <th>Valor</th>
+                                        <th>Editar</th>
                                     </tr>
                                     
-                                    <c:if test="${empty searchPlans}">
+                                    <c:if test="${empty planosCadastrados}">
                                         <tr bgcolor="#f0f0f0">
                                         <td colspan="3"><i>Não há planos cadastrados.</i></td>
                                     </c:if>
                                     
                                     
-                                    <c:forEach var="plano" items="${searchPlans}" varStatus="a">
+                                    <c:forEach var="p" items="${planosCadastrados}" varStatus="a">
                                         <tr bgcolor="#f0f0f0">
-                                        <td>${plano.descricao}</td>
-                                        <td>${plano.valor}</td>
-                                        <td><a href="editarPlano?id=${plano.codigo}"><span class="glyphicon glyphicon-pencil"></span></a></td>                                    
+                                        <td>${p.descricao}</td>
+                                        <td>${p.valor}</td>
+                                        <td><a href="editarPlano?codigo=${p.codigo}"><span class="glyphicon glyphicon-pencil"></span></a></td>                                    
                                 
                                     </c:forEach>         
                                         

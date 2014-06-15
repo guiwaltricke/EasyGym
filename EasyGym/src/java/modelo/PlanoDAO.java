@@ -58,7 +58,8 @@ public class PlanoDAO {
         Plano plano = null;
        
         try {
-                String sql = "Select Codigo, Descricao, Valor from Planos";
+                String sql = "Select Codigo, Descricao, Valor from Planos " +
+                             "Order by Descricao";
                 
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();
@@ -93,14 +94,26 @@ public class PlanoDAO {
     public static void salvarPlano(Plano plano) {
        Connection conn = Conexao.getConexao();
        PreparedStatement stmt = null;
+       ResultSet rs = null;
        
         try {
                 String sql;                
                 
                 if (getPlano(plano.getCodigo()) == null) {
+                    Integer codigo = 0;
+                    
+                    sql = "Select coalesce(Max(Codigo), 0) ultimo from Planos";
+                    stmt = conn.prepareStatement(sql);
+                    
+                    rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        codigo = rs.getInt("ultimo") + 1;
+                    }
+                    
                     sql = "insert into Planos values (?, ?, ?)";
                     stmt = conn.prepareStatement(sql);
-                    stmt.setInt(1, plano.getCodigo());
+                    stmt.setInt(1, codigo);
                     stmt.setString(2, plano.getDescricao());
                     stmt.setDouble(3, plano.getValor());
                     stmt.executeUpdate();
