@@ -30,7 +30,7 @@ public class ClienteDAO {
                     cliente.setTelefone(rs.getString("Telefone"));
                     cliente.setEndereco(rs.getString("Endereco"));
                     cliente.setEmail(rs.getString("Email"));
-                    cliente.setPlano(rs.getInt("Plano"));
+                    cliente.setPlano(PlanoDAO.getPlano(rs.getInt("Plano")));
                     cliente.setDatacadastro(rs.getDate("DataCadastro"));
                     cliente.setSituacao(rs.getString("Situacao"));
                 }
@@ -68,11 +68,13 @@ public class ClienteDAO {
        
         try {
                 String sql = "Select Codigo, Nome, Telefone, Endereco, Email, Plano, " +
-                             "DataCadastro, Situacao from Clientes";
+                             "DataCadastro, Situacao from Clientes ";
                 
-                if (nome != "") {
-                    sql += " where nome like '%" + nome + "%'";
+                if (nome != null) {
+                    sql += " where upper(nome) like '%" + nome.toUpperCase() + "%'";
                 }
+                
+                sql += " Order by Nome";
                 
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();
@@ -84,7 +86,7 @@ public class ClienteDAO {
                     cliente.setTelefone(rs.getString("Telefone"));
                     cliente.setEndereco(rs.getString("Endereco"));
                     cliente.setEmail(rs.getString("Email"));
-                    cliente.setPlano(rs.getInt("Plano"));
+                    cliente.setPlano(PlanoDAO.getPlano(rs.getInt("Plano")));
                     cliente.setDatacadastro(rs.getDate("DataCadastro"));
                     cliente.setSituacao(rs.getString("Situacao"));  
 
@@ -113,37 +115,48 @@ public class ClienteDAO {
     }
     
     public static void salvarCliente(Cliente cliente) {
-       Connection conn = Conexao.getConexao();
-       PreparedStatement stmt = null;
-       
+        Connection conn = Conexao.getConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
         try {
                 String sql;                
                 
                 if (getCliente(cliente.getCodigo()) == null) {
+                    Integer codigo = 0;
+                    
+                    sql = "Select coalesce(Max(Codigo), 0) ultimo from Clientes";
+                    stmt = conn.prepareStatement(sql);
+                    
+                    rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        codigo = rs.getInt("ultimo") + 1;
+                    }
+                    
                     sql = "insert into Clientes values (?, ?, ?, ?, ?, ?, ?, ?)";
                     stmt = conn.prepareStatement(sql);
-                    stmt.setInt(1, cliente.getCodigo());
+                    stmt.setInt(1, codigo);
                     stmt.setString(2, cliente.getNome());
                     stmt.setString(3, cliente.getTelefone());
-                    stmt.setString(4, cliente.getEndereco());
-                    stmt.setString(5, cliente.getEmail());
-                    stmt.setInt(6, cliente.getPlano());                    
-                    stmt.setDate(7, new java.sql.Date(cliente.getDatacadastro().getTime()));
-                    stmt.setString(8, cliente.getSituacao());
+                    stmt.setString(4, cliente.getEmail());
+                    stmt.setString(5, cliente.getEndereco());            
+                    stmt.setString(6, cliente.getSituacao());
+                    stmt.setInt(7, cliente.getPlano().getCodigo());        
+                    stmt.setDate(8, new java.sql.Date(cliente.getDatacadastro().getTime()));
                     stmt.executeUpdate();
                 } else {
-                    sql = "update Clientes set Nome = ?, Telefone = ?, Endereco = ?, Email = ?, Plano = ?, DataCadastro = ?," +
-                          "Situacao = ? where Codigo = ?";  
+                    sql = "update Clientes set Nome = ?, Telefone = ?, Endereco = ?, Email = ?, Plano = ?, Situacao = ?" +
+                          "where Codigo = ?";  
                     
                     stmt = conn.prepareStatement(sql);
                     stmt.setString(1, cliente.getNome());
                     stmt.setString(2, cliente.getTelefone());
                     stmt.setString(3, cliente.getEndereco());
                     stmt.setString(4, cliente.getEmail());
-                    stmt.setInt(5, cliente.getPlano());                    
-                    stmt.setDate(6, new java.sql.Date(cliente.getDatacadastro().getTime()));
-                    stmt.setString(7, cliente.getSituacao());  
-                    stmt.setInt(8, cliente.getCodigo());
+                    stmt.setInt(5, cliente.getPlano().getCodigo());                    
+                    stmt.setString(6, cliente.getSituacao());  
+                    stmt.setInt(7, cliente.getCodigo());
                     stmt.executeUpdate();
                 }
                                

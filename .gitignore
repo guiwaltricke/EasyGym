@@ -23,3 +23,5 @@ EasyGym/src/java/modelo/Conexao.java
 EasyGym/src/java/modelo/PlanoDAO.java
 
 EasyGym/web/WEB-INF/glassfish-web.xml
+
+EasyGym/Banco/data/db/data.properties
