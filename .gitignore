@@ -7,3 +7,19 @@ EasyGym/Banco/data/rundb - Cópia.bat
 EasyGym/Banco/data/rundb - Cópia.bat
 
 EasyGym/Banco/data/rundb - Cópia.bat
+
+EasyGym/Banco/data/db/data.properties
+
+EasyGym/Banco/data/db/data.properties
+
+EasyGym/nbproject/genfiles.properties
+
+EasyGym/nbproject/project.properties
+
+EasyGym/src/java/controller/EasyGymServlet.java
+
+EasyGym/src/java/modelo/Conexao.java
+
+EasyGym/src/java/modelo/PlanoDAO.java
+
+EasyGym/web/WEB-INF/glassfish-web.xml
