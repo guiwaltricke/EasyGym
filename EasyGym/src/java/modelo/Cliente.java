@@ -9,7 +9,7 @@ public class Cliente {
     private String telefone;
     private String endereco;
     private String email;
-    private Integer plano;
+    private Plano plano;
     private Date datacadastro;
     private String situacao;
 
@@ -53,11 +53,11 @@ public class Cliente {
         this.email = email;
     }
 
-    public Integer getPlano() {
+    public Plano getPlano() {
         return plano;
     }
 
-    public void setPlano(Integer plano) {
+    public void setPlano(Plano plano) {
         this.plano = plano;
     }
 

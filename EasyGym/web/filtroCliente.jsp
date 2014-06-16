@@ -17,42 +17,10 @@
     </head>
     
     <body>
-        <div class="container">
-            <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-              <div class="container">
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="index.jsp">EasyGym</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                  <ul class="nav navbar-nav">
-                      
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                          <li><a href="/EasyGym/listarClientes">Clientes</a></li>
-                          <li><a href="/EasyGym/novoPlano">Planos</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="filtroCliente.jsp">Financeiro</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatórios <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                          <li><a href="#">Á Receber</a></li>
-                          <li><a href="#">Mensalidade Pagas</a></li>
-                          <li><a href="#">Clientes</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="about.jsp">Sobre</a></li>
-                  </ul>
-                </div><!--/.nav-collapse -->
-              </div>
-            </div>
+        <div class="container">            
+            <jsp:include page="cabecalho.jsp"> 
+                <jsp:param name="indiceMenu" value="1"/>
+            </jsp:include>
  
             <!-- Criando a estrutura abaixo do menu -->
             </br>
@@ -93,7 +61,7 @@
                                     
                                     <c:if test="${empty clientesCadatrados}">
                                         <tr bgcolor="#f0f0f0">
-                                        <td colspan="3"><i>Não há clientes cadastrados.</i></td>
+                                        <td colspan="4"><i>Não há clientes cadastrados.</i></td>
                                     </c:if>
                                         
                                     <c:forEach var="cliente" items="${clientesCadatrados}" varStatus="a">

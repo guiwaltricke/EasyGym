@@ -6,6 +6,7 @@ public class Mensalidade {
     private Integer codigo;
     private Cliente cliente;
     private String descricao;
+    private Date dataRef;
     private Date datapagto;
     private double valorpago;
 
@@ -49,5 +50,11 @@ public class Mensalidade {
         this.valorpago = valorpago;
     }
     
-    
+    public Date getDataRef() {
+        return dataRef;
+    }
+
+    public void setDataRef(Date dataRef) {
+        this.dataRef = dataRef;
+    }    
 }

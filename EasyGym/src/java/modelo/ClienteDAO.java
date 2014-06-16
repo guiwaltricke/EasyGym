@@ -30,7 +30,7 @@ public class ClienteDAO {
                     cliente.setTelefone(rs.getString("Telefone"));
                     cliente.setEndereco(rs.getString("Endereco"));
                     cliente.setEmail(rs.getString("Email"));
-                    cliente.setPlano(rs.getInt("Plano"));
+                    cliente.setPlano(PlanoDAO.getPlano(rs.getInt("Plano")));
                     cliente.setDatacadastro(rs.getDate("DataCadastro"));
                     cliente.setSituacao(rs.getString("Situacao"));
                 }
@@ -86,7 +86,7 @@ public class ClienteDAO {
                     cliente.setTelefone(rs.getString("Telefone"));
                     cliente.setEndereco(rs.getString("Endereco"));
                     cliente.setEmail(rs.getString("Email"));
-                    cliente.setPlano(rs.getInt("Plano"));
+                    cliente.setPlano(PlanoDAO.getPlano(rs.getInt("Plano")));
                     cliente.setDatacadastro(rs.getDate("DataCadastro"));
                     cliente.setSituacao(rs.getString("Situacao"));  
 
@@ -142,7 +142,7 @@ public class ClienteDAO {
                     stmt.setString(4, cliente.getEmail());
                     stmt.setString(5, cliente.getEndereco());            
                     stmt.setString(6, cliente.getSituacao());
-                    stmt.setInt(7, cliente.getPlano());        
+                    stmt.setInt(7, cliente.getPlano().getCodigo());        
                     stmt.setDate(8, new java.sql.Date(cliente.getDatacadastro().getTime()));
                     stmt.executeUpdate();
                 } else {
@@ -154,7 +154,7 @@ public class ClienteDAO {
                     stmt.setString(2, cliente.getTelefone());
                     stmt.setString(3, cliente.getEndereco());
                     stmt.setString(4, cliente.getEmail());
-                    stmt.setInt(5, cliente.getPlano());                    
+                    stmt.setInt(5, cliente.getPlano().getCodigo());                    
                     stmt.setString(6, cliente.getSituacao());  
                     stmt.setInt(7, cliente.getCodigo());
                     stmt.executeUpdate();

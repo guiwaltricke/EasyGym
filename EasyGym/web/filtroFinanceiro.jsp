@@ -9,120 +9,88 @@
         <title>Financeiro - Filtro Cliente</title>
 
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+        <link rel="stylesheet" href="css/datepicker.css" media="screen"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        
+        <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="js/bootstrap-datepicker.pt-BR.js"></script>
             <!-- Custom styles for this template -->
     <link href="http://getbootstrap.com/examples/starter-template/starter-template.css" rel="stylesheet">
     </head>
     
     <body>
+        <script type="text/javascript">
+            $(function(){
+             var options = new Array();
+             options['language'] = 'pt-BR';
+             options['viewMode'] = 'months';
+             options['format'] = 'mm-yyyy';
+             options['minViewMode'] = "months";
+             $('#datepicker').datepicker(options);
+            });
+        </script>
+            
         <div class="container">
-            <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-              <div class="container">
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="index.jsp">EasyGym</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                  <ul class="nav navbar-nav">
-                      
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                          <li><a href="cadastroCliente.jsp">Clientes</a></li>
-                          <li><a href="cadastroPlano.jsp">Planos</a></li>
-                        </ul>
-                    </li>
-                    
-                    <li class="active"><a href="filtroCliente.jsp">Financeiro</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatórios <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                          <li><a href="#">Á Receber</a></li>
-                          <li><a href="#">Mensalidade Pagas</a></li>
-                          <li><a href="#">Clientes</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="about.jsp">Sobre</a></li>
-                  </ul>
-                </div><!--/.nav-collapse -->
-              </div>
-            </div>
- 
+            <jsp:include page="cabecalho.jsp"> 
+                <jsp:param name="indiceMenu" value="2"/>
+            </jsp:include>
+                          
             <!-- Criando a estrutura abaixo do menu -->
             </br>
-                <div class="row">
-                    <div class="form-group col-lg-10">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                              <h3 class="panel-title">Pesquisar Cliente</h3>
-                            </div>
-                            <div class="panel-body">
-                              
-                                <!-- Parte de dentro do PANEL, dados do Filtro do cliente -->
-                                <form role="form" action="cadastroPlanos" method="POST">
-               
-                                    <div class="row">
-                                        
-                                        <div class="form-group col-sm-8">
-                                            <label for="lTexto" class="control-label">Nome</label>
-                                            <input type="text" class="form-control" placeholder="Digite o nome do cliente">
-                                        </div>
-                                       
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input class="btn btn-lg btn-primary" type="submit" value="Pesquisar">
-                                    </div>
-
-                                <!-- FIM FORM DO PLANO -->
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
                 <!-- PANEL DO RESULTADO DOS CLIENTES-->
                 
                 <div class="row">
                     <div class="form-group col-lg-10">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Clientes Cadastrados</h3>
+                              <h3 class="panel-title">Financeiro Pendente</h3>
                             </div>
                             <div class="panel-body">
-                              
+                                <form role="form" action="listarFinanceiro" method="POST">
+                                    <div class="row">
+
+                                        <div class="form-group col-sm-8">
+                                            <label for="lTexto" class="control-label">Nome</label>
+                                            <input type="text" class="form-control" placeholder="Digite o nome do cliente" name="filtroNome" value="${filtroNome}"> 	
+                                        </div>  
+                                        
+                                        <div class="form-group col-md-8">
+                                            <label for="lTexto" class="control-label">Mês/Ano</label>
+                                            <div class="input-append date" id="datepicker" data-date="${filtroData}" data-date-format="mm-yyyy">
+                                                <input  type="text" readonly="true" name="filtroData" value="${filtroData}">                                                
+                                                <span class="addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>         
+                                    </div>
+                                                                           
+                                    <div class="form-group">
+                                        <input class="btn btn-lg btn-primary" type="submit" name="btnFiltrar" value="Pesquisar">
+                                    </div>
+                                <!-- FIM FORM DO CLIENTE -->
+                                </form>
                                 <!-- Parte de dentro do PANEL, Resultados dos clientes da busca -->
                                 <table class="table table-striped">
                                     
                                     <!-- criando linha por linha com o TR-->
                                     <tr>
                                         <th>Nome do Cliente</th>
-                                        <th>Telefone</th>
-                                        <th>Email</th>
+                                        <th>Valor A Pagar</th>
+                                        <th>Pagar</th>
                                     </tr>
                                     
-                                    <c:if test="${empty searchResult}">
+                                    <c:if test="${empty financeiroAberto}">
                                         <tr bgcolor="#f0f0f0">
-                                        <td colspan="3"><i>Não há clientes cadastrados.</i></td>
+                                        <td colspan="3"><i>Não há financeiro pendente para os filtros informados.</i></td>
                                     </c:if>
                                         
-                                    <c:forEach var="cliente" items="${searchResult}" varStatus="a">
+                                    <c:forEach var="finan" items="${financeiroAberto}" varStatus="a">
                                         <tr bgcolor="#f0f0f0">
-                                        <td>${cliente.nome}</td>
-                                        <td>${cliente.telefone}</td>
-                                        <td>${cliente.email}</td>
-                                        <td><a href="cadastrarMensalidade?id=${cliente.codigo}">Selecionar cliente</a></td>
+                                        <td>${finan.descricao}</td>
+                                        <td>${finan.valorpago}</td>
+                                        <td><a href="selecionarFinanceiro?codigo=${finan.cliente.codigo}&data=${filtroData}&valor=${finan.valorpago}"><span class="glyphicon glyphicon-ok"></a></td>
                                     </c:forEach>        
                                     
                                 </table>
-                                
                             </div>
                         </div>
                     </div>
