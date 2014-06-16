@@ -1,8 +1,11 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,19 +13,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Cliente;
 import modelo.ClienteDAO;
+import modelo.Mensalidade;
+import modelo.MensalidadeDAO;
 import modelo.Plano;
 import modelo.PlanoDAO;
 
 @WebServlet(name = "EasyGym", urlPatterns = {"/EasyGym", 
     "/novoPlano", "/editarPlano", "/salvarPlano",
-    "/novoCliente", "/editarCliente", "/salvarCliente", "/listarClientes"})
+    "/novoCliente", "/editarCliente", "/salvarCliente", "/listarClientes",
+    "/listarFinanceiro", "/selecionarFinanceiro", "/pagarFinanceiro"})
 public class EasyGymServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String jsp = null;
+        String jsp = null; 
         
         if(request.getRequestURI().endsWith("/novoPlano")){
             jsp = processaNovoPlano(request);
@@ -38,6 +44,14 @@ public class EasyGymServlet extends HttpServlet {
             jsp = processaSalvarCliente(request);
         }else if(request.getRequestURI().endsWith("/listarClientes")){
             jsp = processaListaClientes(request);
+        }else if(request.getRequestURI().endsWith("/listarFinanceiro")){
+            jsp = processaListaFinanceiro(request);
+        }else if(request.getRequestURI().endsWith("/selecionarFinanceiro")){
+            jsp = processaSelecionarFinanceiro(request);
+        }else if(request.getRequestURI().endsWith("/pagarFinanceiro")){
+            jsp = processaPagarFinanceiro(request);
+        }else{
+            jsp = null;
         }
         
         if(jsp == null){
@@ -63,13 +77,19 @@ public class EasyGymServlet extends HttpServlet {
     private String processaSalvarPlano(HttpServletRequest request){
         Plano plan = carregarPlano(request); 
         PlanoDAO.salvarPlano(plan);       
-        return null;
+        return "/novoPlano";
     }
     
     private Plano carregarPlano(HttpServletRequest request){
-        Integer codigo = Integer.parseInt(request.getParameter("codigo"));
+        String cod = request.getParameter("codigo");
+        
+        if (cod.equals("")) {
+            cod = "0";
+        }
+        
+        Integer codigo = Integer.parseInt(cod);
         String descricao = request.getParameter("descricao");
-        Double valor = Double.parseDouble("valor");
+        Double valor = Double.parseDouble(request.getParameter("valor"));
         
         Plano plan = new Plano(codigo, descricao, valor);
         
@@ -90,18 +110,24 @@ public class EasyGymServlet extends HttpServlet {
     private String processaSalvarCliente(HttpServletRequest request){
         Cliente cli = carregarCliente(request); 
         ClienteDAO.salvarCliente(cli);       
-        return null;
+        return "/listarClientes";
     }
     
     private Cliente carregarCliente(HttpServletRequest request){
         Cliente cli = new Cliente();
         
-        Integer codigo = Integer.parseInt(request.getParameter("codigo"));
+        String cod = request.getParameter("codigo");
+        
+        if (cod.equals("")) {
+            cod = "0";
+        }
+        
+        Integer codigo = Integer.parseInt(cod);
         String nome = request.getParameter("nome");
         String telefone = request.getParameter("telefone");
         String Endereco = request.getParameter("endereco");
         String email = request.getParameter("email");
-        Integer plano = Integer.parseInt(request.getParameter("plano"));
+        Integer plano = 2;//Integer.parseInt(request.getParameter("plano"));
         Date dataCadastro = new Date();
         String situacao = request.getParameter("situacao");
                     
@@ -110,7 +136,7 @@ public class EasyGymServlet extends HttpServlet {
         cli.setTelefone(telefone);
         cli.setEndereco(Endereco);
         cli.setEmail(email);
-        cli.setPlano(plano);
+        cli.setPlano(PlanoDAO.getPlano(plano));
         cli.setDatacadastro(dataCadastro);
         cli.setSituacao(situacao);
         
@@ -120,9 +146,96 @@ public class EasyGymServlet extends HttpServlet {
     private String processaListaClientes(HttpServletRequest request){
         String filtroNome = request.getParameter("filtroNome");
         request.setAttribute("clientesCadatrados", ClienteDAO.getListaClientes(filtroNome));
-        return "/filtroCliente.jsp";
+         
+        String botao = request.getParameter("btnNovo");
+        
+        if (botao != null) {
+            return "/novoCliente";
+        } else {
+            request.setAttribute("filtroNome", filtroNome);
+            return "/filtroCliente.jsp";
+        }
     }
 
+   private String processaListaFinanceiro(HttpServletRequest request){
+        String filtroNome = request.getParameter("filtroNome");
+        String filtroDataStr = request.getParameter("filtroData");
+        
+        if (filtroDataStr == null){
+            filtroDataStr = new SimpleDateFormat("MM-yyyy").format(new Date());
+        }
+        
+        if (filtroDataStr.equals("") && request.getAttribute("filtroData") != null){
+            filtroDataStr = request.getAttribute("filtroData").toString();
+        }
+        
+        Date filtroData = null;
+        
+        if (filtroDataStr != null) {
+            try {
+                filtroData = new SimpleDateFormat("MM-yyyy").parse(filtroDataStr);
+            } catch (ParseException ex) {
+                Logger.getLogger(EasyGymServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        request.setAttribute("financeiroAberto", MensalidadeDAO.getListaMensalidadeEmAberto(filtroNome, filtroData));
+        request.setAttribute("filtroNome", filtroNome);
+        request.setAttribute("filtroData", filtroDataStr);
+        return "/filtroFinanceiro.jsp";
+    }
+   
+    private String processaSelecionarFinanceiro(HttpServletRequest request){
+        String codigo = request.getParameter("codigo");
+        String data = request.getParameter("data");
+        String valor = request.getParameter("valor");
+        
+        Mensalidade mens = new Mensalidade();
+        mens.setCliente(ClienteDAO.getCliente(Integer.parseInt(codigo)));        
+        mens.setValorpago(Double.parseDouble(valor));
+        
+        request.setAttribute("mens", mens);
+        request.setAttribute("filtroData", data);
+        return "/pagamentoMensalidade.jsp";
+    }
+    
+    private Mensalidade carregarMensalidade(HttpServletRequest request){
+        Integer codigo = Integer.parseInt(request.getParameter("codigo"));
+        String descricao = request.getParameter("descricao");
+        Date datapagto = new Date();
+        Date dataRef = null;
+        String dataRefstr = request.getParameter("datapagto");
+        Double valorPago = Double.parseDouble(request.getParameter("valorpago"));
+            
+        if (dataRefstr != null) {
+            try {
+                dataRef = new SimpleDateFormat("MM-yyyy").parse(dataRefstr);
+            } catch (ParseException ex) {
+                Logger.getLogger(EasyGymServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        Mensalidade mens = new Mensalidade();
+        
+        mens.setCodigo(0);
+        mens.setDescricao(descricao);
+        mens.setCliente(ClienteDAO.getCliente(codigo));
+        mens.setDataRef(dataRef);
+        mens.setDatapagto(datapagto);
+        mens.setValorpago(valorPago);
+        
+        request.setAttribute("filtroData", dataRefstr);
+               
+        return mens;
+    }
+    
+    private String processaPagarFinanceiro(HttpServletRequest request){
+        Mensalidade mens = carregarMensalidade(request); 
+        MensalidadeDAO.salvarMensalidade(mens);       
+        return "/listarFinanceiro";
+    }
+
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

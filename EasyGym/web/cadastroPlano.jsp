@@ -47,7 +47,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <input class="btn btn-lg btn-primary" type="submit" value="Cadastrar">
+                                        <input class="btn btn-lg btn-primary" type="submit" value="Confirmar">
                                     </div>
 
                                 <!-- FIM FORM DO PLANO -->
