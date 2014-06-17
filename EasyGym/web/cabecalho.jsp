@@ -24,7 +24,7 @@
             <ul class="dropdown-menu">
               <li><a href="relFinanceiroPagar">Á Receber</a></li>
               <li><a href="relFinanceiroPago">Mensalidade Pagas</a></li>
-              <li><a href="#">Clientes</a></li>
+              <li><a href="relClientes">Clientes</a></li>
             </ul>
         </li>
         <li class="${param.indiceMenu == 4 ? "active" : ""}"><a href="about.jsp">Sobre</a></li>

@@ -56,7 +56,7 @@ public class EasyGymServlet extends HttpServlet {
         }else if(request.getRequestURI().endsWith("/relFinanceiroPagar")){
             jsp = processaListaFinanceiro(request, true, 1);
         }else if(request.getRequestURI().endsWith("/relClientes")){
-            jsp = "";//processaRelClientes(request);
+            jsp = processaRelClientes(request);
         }else{
             jsp = null;
         }
@@ -152,7 +152,7 @@ public class EasyGymServlet extends HttpServlet {
     
     private String processaListaClientes(HttpServletRequest request){
         String filtroNome = request.getParameter("filtroNome");
-        request.setAttribute("clientesCadatrados", ClienteDAO.getListaClientes(filtroNome));
+        request.setAttribute("clientesCadatrados", ClienteDAO.getListaClientes(filtroNome,""));
          
         String botao = request.getParameter("btnNovo");
         
@@ -251,6 +251,22 @@ public class EasyGymServlet extends HttpServlet {
         Mensalidade mens = carregarMensalidade(request); 
         MensalidadeDAO.salvarMensalidade(mens);       
         return "/listarFinanceiro";
+    }
+    
+    private String processaRelClientes(HttpServletRequest request){
+        String filtroNome = request.getParameter("filtroNome");
+        String filtroSituacao = request.getParameter("filtroSituacao");
+        
+        if (filtroSituacao != null) {
+            if (filtroSituacao.equals("on")) {
+                filtroSituacao = "A";
+            }
+        }
+        
+        request.setAttribute("clientesCadatrados", ClienteDAO.getListaClientes(filtroNome, filtroSituacao));       
+        request.setAttribute("filtroNome", filtroNome);
+        request.setAttribute("filtroSituacao", filtroSituacao);
+        return "/relCliente.jsp";
     }
 
     

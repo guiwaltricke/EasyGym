@@ -57,7 +57,7 @@ public class ClienteDAO {
         return cliente;
     }
             
-    public static List<Cliente> getListaClientes(String nome){
+    public static List<Cliente> getListaClientes(String nome, String situacao){
         List<Cliente> lista = new ArrayList();
 
         Connection conn = Conexao.getConexao();
@@ -70,8 +70,26 @@ public class ClienteDAO {
                 String sql = "Select Codigo, Nome, Telefone, Endereco, Email, Plano, " +
                              "DataCadastro, Situacao from Clientes ";
                 
+                String sqlWhere = null;
+                
                 if (nome != null) {
-                    sql += " where upper(nome) like '%" + nome.toUpperCase() + "%'";
+                    sqlWhere = " where upper(nome) like '%" + nome.toUpperCase() + "%'";
+                }
+                
+                if (situacao != null) {
+                    if (situacao.equals("A")) {                       
+                        if (sqlWhere == null) {
+                            sqlWhere += " where";
+                        }else{
+                            sqlWhere += " and";
+                        }
+                    
+                        sqlWhere += " coalesce(situacao,'A') = '" + situacao + "'";
+                    }
+                }
+                
+                if (sqlWhere != null) {
+                    sql += sqlWhere;
                 }
                 
                 sql += " Order by Nome";

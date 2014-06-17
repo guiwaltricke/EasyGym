@@ -19,7 +19,7 @@
     <body>
         <div class="container">            
             <jsp:include page="cabecalho.jsp"> 
-                <jsp:param name="indiceMenu" value="1"/>
+                <jsp:param name="indiceMenu" value="3"/>
             </jsp:include>
  
             <!-- Criando a estrutura abaixo do menu -->
@@ -33,17 +33,24 @@
                               <h3 class="panel-title">Clientes cadastrados</h3>
                             </div>
                             <div class="panel-body">
-                                <form role="form" action="listarClientes" method="POST">
+                                <form role="form" action="relClientes" method="POST">
                                     <div class="row">
                                         <div class="form-group col-sm-8">
                                             <label for="lTexto" class="control-label">Nome</label>
                                             <input type="text" class="form-control" placeholder="Digite o nome do cliente" name="filtroNome" value="${filtroNome}">
+                                        </div>  
+                                        <div class="form-group col-sm-5">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" name="filtroSituacao" ${filtroSituacao == "A" ? "checked='true'" : ""}>
+                                                </span>
+                                                <input type="text" class="form-control" readonly="true" value="Somente clientes ativos">
+                                            </div>
                                         </div>
                                     </div>
                                     
                                     <div class="form-group">
                                         <input class="btn btn-lg btn-primary" type="submit" name="btnFiltrar" value="Pesquisar">
-                                        <input class="btn btn-lg btn-primary" type="submit" name="btnNovo" value="Cadastrar Novo Cliente">
                                     </div>
                                 <!-- FIM FORM DO CLIENTE -->
                                 </form>
@@ -55,7 +62,6 @@
                                         <th>Nome do Cliente</th>
                                         <th>Telefone</th>
                                         <th>Email</th>
-                                        <th>Editar</th>
                                     </tr>
                                     
                                     <c:if test="${empty clientesCadatrados}">
@@ -68,7 +74,6 @@
                                         <td>${cliente.nome}</td>
                                         <td>${cliente.telefone}</td>
                                         <td>${cliente.email}</td>
-                                        <td><a href="editarCliente?codigo=${cliente.codigo}"><span class="glyphicon glyphicon-pencil"></a></td>
                                     </c:forEach>        
                                     
                                 </table>
