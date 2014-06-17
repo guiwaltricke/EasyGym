@@ -21,7 +21,8 @@ import modelo.PlanoDAO;
 @WebServlet(name = "EasyGym", urlPatterns = {"/EasyGym", 
     "/novoPlano", "/editarPlano", "/salvarPlano",
     "/novoCliente", "/editarCliente", "/salvarCliente", "/listarClientes",
-    "/listarFinanceiro", "/selecionarFinanceiro", "/pagarFinanceiro"})
+    "/listarFinanceiro", "/selecionarFinanceiro", "/pagarFinanceiro", 
+    "/relFinanceiroPago", "/relFinanceiroPagar", "/relClientes"})
 public class EasyGymServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -45,11 +46,17 @@ public class EasyGymServlet extends HttpServlet {
         }else if(request.getRequestURI().endsWith("/listarClientes")){
             jsp = processaListaClientes(request);
         }else if(request.getRequestURI().endsWith("/listarFinanceiro")){
-            jsp = processaListaFinanceiro(request);
+            jsp = processaListaFinanceiro(request, false, 0);
         }else if(request.getRequestURI().endsWith("/selecionarFinanceiro")){
             jsp = processaSelecionarFinanceiro(request);
         }else if(request.getRequestURI().endsWith("/pagarFinanceiro")){
             jsp = processaPagarFinanceiro(request);
+        }else if(request.getRequestURI().endsWith("/relFinanceiroPago")){
+            jsp = processaListaFinanceiro(request, true, 2);
+        }else if(request.getRequestURI().endsWith("/relFinanceiroPagar")){
+            jsp = processaListaFinanceiro(request, true, 1);
+        }else if(request.getRequestURI().endsWith("/relClientes")){
+            jsp = "";//processaRelClientes(request);
         }else{
             jsp = null;
         }
@@ -157,7 +164,7 @@ public class EasyGymServlet extends HttpServlet {
         }
     }
 
-   private String processaListaFinanceiro(HttpServletRequest request){
+   private String processaListaFinanceiro(HttpServletRequest request, boolean modoRelatorio, int modeloRelatorio){
         String filtroNome = request.getParameter("filtroNome");
         String filtroDataStr = request.getParameter("filtroData");
         
@@ -179,10 +186,21 @@ public class EasyGymServlet extends HttpServlet {
             }
         }
         
-        request.setAttribute("financeiroAberto", MensalidadeDAO.getListaMensalidadeEmAberto(filtroNome, filtroData));
+        if ((modoRelatorio) && (modeloRelatorio == 2)) {
+            request.setAttribute("listafinanceiro", MensalidadeDAO.getListaMensalidade(filtroNome, filtroData));   
+        } else {
+            request.setAttribute("listafinanceiro", MensalidadeDAO.getListaMensalidadeEmAberto(filtroNome, filtroData));    
+        }
+        
         request.setAttribute("filtroNome", filtroNome);
         request.setAttribute("filtroData", filtroDataStr);
-        return "/filtroFinanceiro.jsp";
+        request.setAttribute("modRelFinanceiro", modeloRelatorio);
+        
+        //if (modoRelatorio) {
+        //    return "/relFinanceiro.jsp";
+        //}else{
+            return "/filtroFinanceiro.jsp";
+        //}
     }
    
     private String processaSelecionarFinanceiro(HttpServletRequest request){

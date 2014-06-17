@@ -54,7 +54,7 @@ public class MensalidadeDAO {
         return mens;
     }
     
-    public static List<Mensalidade> getListaMensalidade(){
+    public static List<Mensalidade> getListaMensalidade(String nome, Date data){
         List<Mensalidade> lista = new ArrayList();
 
         Connection conn = Conexao.getConexao();
@@ -64,9 +64,25 @@ public class MensalidadeDAO {
         Mensalidade mens = null;
        
         try {
-                String sql = "Select Codigo, Cliente, Descricao, DataPagto, ValorPago, DataRef from MensalidadesPagas";
+                String sql = "Select M.Codigo, M.Cliente, M.Descricao, M.DataPagto, M.ValorPago, M.DataRef from MensalidadesPagas M, Clientes C" +
+                             " where C.Codigo = M.Cliente";
+                
+                if (nome != null) {
+                    sql += " and C.Nome like '%" + nome + "%'";
+                }
+
+                if (data != null) {
+                    sql += " and M.DataRef = ?"; 
+                }
+                
+                sql += " Order by C.Nome";
                 
                 stmt = conn.prepareStatement(sql);
+                
+                if (data != null) {
+                    stmt.setDate(1, new java.sql.Date(data.getTime()));
+                }
+                
                 rs = stmt.executeQuery();
                 
                 while (rs.next()) {
@@ -142,7 +158,6 @@ public class MensalidadeDAO {
                     mens = new Mensalidade(); 
                     mens.setCodigo(rs.getInt("Codigo"));                    
                     mens.setCliente(ClienteDAO.getCliente(rs.getInt("codigo")));
-                    mens.setDescricao(rs.getString("nome"));
                     mens.setValorpago(rs.getDouble("Valor")); 
 
                     lista.add(mens);

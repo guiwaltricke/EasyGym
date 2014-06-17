@@ -43,10 +43,20 @@
                     <div class="form-group col-lg-10">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                              <h3 class="panel-title">Financeiro Pendente</h3>
+                              <h3 class="panel-title">${modRelFinanceiro == '2' ? "Financeiro Pago" : "Financeiro Pendente"}</h3>
                             </div>
                             <div class="panel-body">
-                                <form role="form" action="listarFinanceiro" method="POST">
+                                <c:choose>
+                                    <c:when test="${modRelFinanceiro == '1'}">
+                                        <form role="form" action="relFinanceiroPagar" method="POST">                                       
+                                    </c:when>
+                                    <c:when test="${modRelFinanceiro == '2'}">
+                                        <form role="form" action="relFinanceiroPago" method="POST">                                       
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form role="form" action="listarFinanceiro" method="POST">                                       
+                                    </c:otherwise>
+                                </c:choose>
                                     <div class="row">
 
                                         <div class="form-group col-sm-8">
@@ -71,25 +81,56 @@
                                 <!-- Parte de dentro do PANEL, Resultados dos clientes da busca -->
                                 <table class="table table-striped">
                                     
-                                    <!-- criando linha por linha com o TR-->
-                                    <tr>
-                                        <th>Nome do Cliente</th>
-                                        <th>Valor A Pagar</th>
-                                        <th>Pagar</th>
-                                    </tr>
-                                    
-                                    <c:if test="${empty financeiroAberto}">
-                                        <tr bgcolor="#f0f0f0">
-                                        <td colspan="3"><i>Não há financeiro pendente para os filtros informados.</i></td>
-                                    </c:if>
-                                        
-                                    <c:forEach var="finan" items="${financeiroAberto}" varStatus="a">
-                                        <tr bgcolor="#f0f0f0">
-                                        <td>${finan.descricao}</td>
-                                        <td>${finan.valorpago}</td>
-                                        <td><a href="selecionarFinanceiro?codigo=${finan.cliente.codigo}&data=${filtroData}&valor=${finan.valorpago}"><span class="glyphicon glyphicon-ok"></a></td>
-                                    </c:forEach>        
-                                    
+                                <%  String modelo = "";
+
+                                    if (request.getAttribute("modRelFinanceiro") != null) {
+                                        modelo = request.getAttribute("modRelFinanceiro").toString();
+                                    }
+
+                                    if (modelo.equals("2")) { %>
+                                        <!-- criando linha por linha com o TR-->
+                                        <tr>
+                                            <th>Nome do Cliente</th>
+                                            <th>Descrição</th>
+                                            <th>Data de Pagamento</th>
+                                            <th>Valor Pago</th>
+                                        </tr>
+                                        <c:if test="${empty listafinanceiro}">
+                                            <tr bgcolor="#f0f0f0">
+                                            <td colspan="4"><i>Não há financeiro pago para os filtros informados.</i></td>
+                                        </c:if>
+
+                                        <c:forEach var="finan" items="${listafinanceiro}" varStatus="a">
+                                            <tr bgcolor="#f0f0f0">
+                                            <td>${finan.cliente.nome}</td>
+                                            <td>${finan.descricao}</td>
+                                            <td>${finan.datapagto}</td>
+                                            <td>${finan.valorpago}</td>
+                                        </c:forEach>        
+                                    <% } else { %>
+                                        <!-- criando linha por linha com o TR-->
+                                        <tr>
+                                            <th>Nome do Cliente</th>
+                                            <th>Valor A Pagar</th>
+                                            <%if (modelo.equals("0")) { %>
+                                                <th>Pagar</th>
+                                            <% } %>
+                                        </tr>
+                                        <c:if test="${empty listafinanceiro}">
+                                            <tr bgcolor="#f0f0f0">
+                                            <td colspan="3"><i>Não há financeiro pendente para os filtros informados.</i></td>
+                                        </c:if>
+
+                                        <c:forEach var="finan" items="${listafinanceiro}" varStatus="a">
+                                            <tr bgcolor="#f0f0f0">
+                                            <td>${finan.cliente.nome}</td>
+                                            <td>${finan.valorpago}</td>
+                                            
+                                            <%if (modelo.equals("0")) { %>
+                                                <td><a href="selecionarFinanceiro?codigo=${finan.cliente.codigo}&data=${filtroData}&valor=${finan.valorpago}"><span class="glyphicon glyphicon-ok"></a></td>
+                                            <% } %>
+                                        </c:forEach>        
+                                    <% } %>                                    
                                 </table>
                             </div>
                         </div>

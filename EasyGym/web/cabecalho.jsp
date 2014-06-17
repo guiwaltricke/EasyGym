@@ -14,16 +14,16 @@
           <li class="dropdown ${param.indiceMenu == 1 ? "active" : ""}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="/EasyGym/listarClientes">Clientes</a></li>
-              <li><a href="/EasyGym/novoPlano">Planos</a></li>
+              <li><a href="listarClientes">Clientes</a></li>
+              <li><a href="novoPlano">Planos</a></li>
             </ul>
         </li>
         <li class="dropdown ${param.indiceMenu == 2 ? "active" : ""}"><a href="listarFinanceiro">Financeiro</a></li>
         <li class="dropdown ${param.indiceMenu == 3 ? "active" : ""}">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatórios <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Á Receber</a></li>
-              <li><a href="#">Mensalidade Pagas</a></li>
+              <li><a href="relFinanceiroPagar">Á Receber</a></li>
+              <li><a href="relFinanceiroPago">Mensalidade Pagas</a></li>
               <li><a href="#">Clientes</a></li>
             </ul>
         </li>
